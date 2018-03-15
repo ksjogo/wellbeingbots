@@ -3,7 +3,7 @@ var path = require("path"),
     glob = require("glob");
 
 module.exports = {
-    devtool: "eval-source-map",
+    //devtool: "eval-source-map",
     target: "node",
     node: {
         __dirname: true,
@@ -38,6 +38,9 @@ module.exports = {
     },
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.DefinePlugin({ "global.GENTLY": false })
+        new webpack.DefinePlugin({ "global.GENTLY": false }),
+        new webpack.SourceMapDevToolPlugin({
+            filename: '[name].map'
+        })
     ]
 };

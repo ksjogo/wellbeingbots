@@ -10,8 +10,7 @@ import * as builder from 'botbuilder'
 import * as botbuilderAzure from 'botbuilder-azure'
 import * as path from 'path'
 
-let useEmulator = (process.env.NODE_ENV === 'development')
-let connector = useEmulator ? new builder.ChatConnector() : new botbuilderAzure.BotServiceConnector({
+let connector = new builder.ChatConnector({
     appId: process.env['MicrosoftAppId'],
     appPassword: process.env['MicrosoftAppPassword'],
     openIdMetadata: process.env['BotOpenIdMetadata'],
@@ -59,17 +58,8 @@ let intents = new builder.IntentDialog({ recognizers: [recognizer] })
 
 bot.dialog('/', intents)
 
-if (useEmulator) {
-    let restify = require('restify')
-    let server = restify.createServer()
-    server.listen(3978, function () {
-        console.log('test bot endpont at http://localhost:3978/api/messages')
-    })
-    server.post('/api/messages', connector.listen())
-} else {
-    let inner = connector.listen()
-    module.exports = function (context) {
-        debugger
-        inner(context, context.req)
-    }
+const listener = connector.listen()
+let inner = connector.listen()
+module.exports = function (context) {
+    inner(context.req, context.res)
 }

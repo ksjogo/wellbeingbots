@@ -1,0 +1,32 @@
+{
+  "name": "wellbeingbots",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@types/async": "^2.0.47",
+    "@types/lodash": "^4.14.93",
+    "@types/node": "^9.3.0",
+    "async": "^2.6.0",
+    "azure-storage": "^2.6.0",
+    "botbuilder": "^3.13.1",
+    "botbuilder-azure": "3.0.4",
+    "glob": "^7.1.2",
+    "lodash": "^4.17.4",
+    "lodash-decorators": "^4.5.0",
+    "node-fetch": "^1.7.3",
+    "ts-loader": "^3.2.0",
+    "tslint": "^5.9.1",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.6.2",
+    "webpack": "^2.6.1"
+  },
+  "devDependencies": {
+    "restify": "^4.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

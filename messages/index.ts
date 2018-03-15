@@ -41,6 +41,7 @@ const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v1/application?id=' +
 let recognizer = new builder.LuisRecognizer(LuisModelUrl)
 let intents = new builder.IntentDialog({ recognizers: [recognizer] })
     .matches('Greeting', (session) => {
+        session.send('wtf!')
         session.send('You reached Greeting intent, you said \'%s\'.', session.message.text)
     })
     .matches('Help', (session) => {

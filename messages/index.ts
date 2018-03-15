@@ -4,17 +4,18 @@ natural language support to a bot.
 For a complete walkthrough of creating this type of bot see the article at
 https://aka.ms/abs-node-luis
 -----------------------------------------------------------------------------*/
-let builder = require('botbuilder')
-let botbuilderAzure = require('botbuilder-azure')
-let path = require('path')
+console.log('crap')
+
+import * as builder from 'botbuilder'
+import * as botbuilderAzure from 'botbuilder-azure'
+import * as path from 'path'
 
 let useEmulator = (process.env.NODE_ENV === 'development')
-
 let connector = useEmulator ? new builder.ChatConnector() : new botbuilderAzure.BotServiceConnector({
     appId: process.env['MicrosoftAppId'],
     appPassword: process.env['MicrosoftAppPassword'],
     openIdMetadata: process.env['BotOpenIdMetadata'],
-})
+} as any)
 
 /*----------------------------------------------------------------------------------------
 * Bot Storage: This is a great spot to register the private state storage for your bot.
@@ -66,5 +67,9 @@ if (useEmulator) {
     })
     server.post('/api/messages', connector.listen())
 } else {
-    module.exports = connector.listen()
+    let inner = connector.listen()
+    module.exports = function (context) {
+        debugger
+        inner(context, context.req)
+    }
 }

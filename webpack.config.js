@@ -3,14 +3,14 @@ var path = require("path"),
     glob = require("glob");
 
 module.exports = {
-    devtool: false,
+    devtool: "eval-source-map",
     target: "node",
     node: {
         __dirname: true,
     },
-    entry: glob.sync("*/index.ts").reduce((acc, value)=>{
-        acc[value.replace(/.ts$/,".js")] = "./" + value; return acc;
-    },{}),
+    entry: glob.sync("*/index.ts").reduce((acc, value) => {
+        acc[value.replace(/.ts$/, ".js")] = "./" + value; return acc;
+    }, {}),
     output: {
         path: process.cwd(),
         filename: "[name]",
@@ -22,16 +22,18 @@ module.exports = {
     },
     module: {
         rules: [
-            {test: /\.tsx?$/,
-             use: [{
-                 loader: "ts-loader",
-                 options: {
-                     silent: true
-                 }
-             }]},{
-                 test: /\.json$/,
-                 use: ['json-loader']
-             }
+            {
+                test: /\.tsx?$/,
+                use: [{
+                    loader: "ts-loader",
+                    options: {
+                        silent: true
+                    }
+                }]
+            }, {
+                test: /\.json$/,
+                use: ['json-loader']
+            }
         ]
     },
     plugins: [

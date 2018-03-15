@@ -60,5 +60,7 @@ bot.dialog('/', intents)
 
 const listener = connector.listen()
 module.exports = function (context) {
+    if (!context.req.body)
+        context.req.body = {}
     listener(context, context.req)
 }

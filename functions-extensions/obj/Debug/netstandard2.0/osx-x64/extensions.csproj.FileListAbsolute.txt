@@ -1,0 +1,8 @@
+/Users/dkd-goslar/dev/wellbeingbots/bin/extensions.deps.json
+/Users/dkd-goslar/dev/wellbeingbots/bin/extensions.dll
+/Users/dkd-goslar/dev/wellbeingbots/bin/extensions.pdb
+/Users/dkd-goslar/dev/wellbeingbots/functions-extensions/obj/Debug/netstandard2.0/osx-x64/extensions.csproj.CoreCompileInputs.cache
+/Users/dkd-goslar/dev/wellbeingbots/functions-extensions/obj/Debug/netstandard2.0/osx-x64/extensions.AssemblyInfoInputs.cache
+/Users/dkd-goslar/dev/wellbeingbots/functions-extensions/obj/Debug/netstandard2.0/osx-x64/extensions.AssemblyInfo.cs
+/Users/dkd-goslar/dev/wellbeingbots/functions-extensions/obj/Debug/netstandard2.0/osx-x64/extensions.dll
+/Users/dkd-goslar/dev/wellbeingbots/functions-extensions/obj/Debug/netstandard2.0/osx-x64/extensions.pdb

@@ -1,14 +1,7 @@
-/*-----------------------------------------------------------------------------
-This template demonstrates how to use an IntentDialog with a LuisRecognizer to add
-natural language support to a bot.
-For a complete walkthrough of creating this type of bot see the article at
-https://aka.ms/abs-node-luis
------------------------------------------------------------------------------*/
-console.log('crap')
-
 import * as builder from 'botbuilder'
 import * as botbuilderAzure from 'botbuilder-azure'
 import * as path from 'path'
+import { QnAMakerRecognizer } from 'botbuilder-cognitiveservices'
 
 let connector = new botbuilderAzure.BotServiceConnector({
     appId: process.env['MicrosoftAppId'],
@@ -30,22 +23,28 @@ let bot = new builder.UniversalBot(connector)
 bot.localePath(path.join(__dirname, './locale'))
 bot.set('storage', tableStorage)
 
-// Make sure you add code to validate these fields
 let luisAppId = process.env.LuisAppId
 let luisAPIKey = process.env.LuisAPIKey
-let luisAPIHostName = process.env.LuisAPIHostName || 'westus.api.cognitive.microsoft.com'
+const LuisModelUrl = `https://westeurope.api.cognitive.microsoft.com/luis/v2.0/apps/${luisAppId}?subscription-key=${luisAPIKey}`
 
-const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v1/application?id=' + luisAppId + '&subscription-key=' + luisAPIKey
+const qna = new QnAMakerRecognizer({
+    knowledgeBaseId: process.env['QNA_KB'],
+    subscriptionKey: process.env['QNA_CODE'],
+})
 
-// Main dialog with LUIS
 let recognizer = new builder.LuisRecognizer(LuisModelUrl)
 let intents = new builder.IntentDialog({ recognizers: [recognizer] })
     .matches('Greeting', (session) => {
-        session.send('wtf!')
         session.send('You reached Greeting intent, you said \'%s\'.', session.message.text)
     })
     .matches('Help', (session) => {
-        session.send('You reached Help intent, you said \'%s\'.', session.message.text)
+        session.sendTyping()
+        session.send('You opened the welfare faq. Let me look for an answer.', session.message.text)
+        session.sendTyping()
+        qna.recognize(session, (err, faq) => {
+            if (err) throw err
+            session.send(faq.answers[0].answer)
+        })
     })
     .matches('Cancel', (session) => {
         session.send('You reached Cancel intent, you said \'%s\'.', session.message.text)

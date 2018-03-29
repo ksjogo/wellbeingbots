@@ -5,7 +5,7 @@
     right: 0 !important;
     bottom: 0 !important;
     margin-bottom: -400px;    
-    transition: margin-bottom 2s cubic-bezier(0.37, 0.21, 0, 1.04)
+    transition: margin-bottom 1s cubic-bezier(0.37, 0.21, 0, 1.04)
 }
 
 .chatboxShown {

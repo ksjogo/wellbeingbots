@@ -11,19 +11,19 @@ import autobind from 'autobind-decorator'
 export class Chat extends React.Component<{ appState: AppState }, {}> {
     async componentDidMount () {
         try {
-            /*     let data = await this.props.appState.remote('chattoken', {})
-                this.props.appState.chatLine = new DirectLine({ token: data.token })
-                this.props.appState.chatLine.activity$.filter(activity => {
-                    if (activity.from.id === 'nreachbot') {
-                        this.props.appState.clippyAgent.animate()
-                        switch (activity.type) {
-                            case 'message':
-                                return !!activity.entities
-                            default:
-                                return false
-                        }
+            let data = await this.props.appState.remote('chattoken', {})
+            this.props.appState.chatLine = new DirectLine({ token: data.token })
+            this.props.appState.chatLine.activity$.filter(activity => {
+                if (activity.from.id === 'nreachbot') {
+                    this.props.appState.clippyAgent.animate()
+                    switch (activity.type) {
+                        case 'message':
+                            return !!activity.entities
+                        default:
+                            return false
                     }
-                }).subscribe(this.onActivity) */
+                }
+            }).subscribe(this.onActivity)
         } catch (e) {
             console.error(e)
         }

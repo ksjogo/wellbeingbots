@@ -12,7 +12,7 @@ export default class AppState {
     if (command !== 'chattoken')
       return Promise.resolve({})
 
-    const url = `https://wellbeingbots.azure-api.net/${command}?${querystring.stringify(args)}`
+    const url = `https://wellbeingbots.azurewebsites.net/api/${command}?${querystring.stringify(args)}`
     const headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

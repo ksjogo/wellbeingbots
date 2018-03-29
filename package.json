@@ -16,6 +16,7 @@
     "lodash": "^4.17.4",
     "lodash-decorators": "^4.5.0",
     "node-fetch": "^1.7.3",
+    "raw-loader": "^0.5.1",
     "source-map-support": "^0.5.4",
     "ts-loader": "^3.2.0",
     "tslint": "^5.9.1",

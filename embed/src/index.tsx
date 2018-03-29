@@ -8,3 +8,4 @@ el.id = 'wellbeingbots'
 const appState = new AppState()
 ReactDOM.render(<App appState={appState} />, el)
 document.body.appendChild(el)
+console.log('wellbeing started')

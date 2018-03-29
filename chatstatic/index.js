@@ -79,17 +79,13 @@ module.exports = "<html>\n\n<head>\n    <title>Wellbeingbots</title>\n</head>\n\
 /***/ 962:
 /***/ (function(module, exports, __webpack_require__) {
 
-var text = __webpack_require__(498);
+var text = __webpack_require__(498).
+    replace('${scriptFile}', !process.env.WEBSITE_INSTANCE_ID ?
+    'http://localhost:3000/static/bundle.js' :
+    'https://wellbeingbots.azurewebsites.net/api/chatjs');
 module.exports = function (context, req) {
-    context.log(process.env.WEBSITE_INSTANCE_ID);
-    context.res = {
-        status: 200,
-        body: text,
-        headers: {
-            'content-type': 'text/plain',
-        },
-    };
-    context.done();
+    context.res.setHeader('content-type', 'text/html; charset=utf-8');
+    context.res.raw(text);
 };
 
 

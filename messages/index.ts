@@ -71,6 +71,7 @@ bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
         message.membersAdded.forEach(function (identity) {
             if (identity.id === message.address.bot.id) {
+                bot.send({ type: 'typing', address: message.address } as botbuilderAzure.IMessage)
                 bot.send(new builder.Message()
                     .address(message.address)
                     .text("Hello! I'm your personal welfare bot. You can just talk to me and I will try to help immediately and forward you to the right human, as well. What can I help you with? "))

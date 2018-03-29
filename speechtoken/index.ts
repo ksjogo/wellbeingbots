@@ -2,6 +2,7 @@ import fetch from 'node-fetch'
 
 module.exports = function (context, req) {
     (async function () {
+        context.res.setHeader('content-type', 'text/plain; charset=utf-8')
         try {
             const url = 'https://api.cognitive.microsoft.com/sts/v1.0/issueToken'
             let reponse = await fetch(url, {
@@ -10,18 +11,10 @@ module.exports = function (context, req) {
                 },
             })
             let token = await reponse.text()
-            context.res = {
-                body: {
-                    token: token,
-                },
-            }
+            context.res.setHeader('content-type', 'text/plain; charset=utf-8')
+            context.res.raw(token)
         } catch (e) {
-            context.res = {
-                status: 400,
-                body: 'Please pass a name on the query string or in the request body',
-            }
-        } finally {
-            context.done()
+            context.res.raw('')
         }
     })()
 }

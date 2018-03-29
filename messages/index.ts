@@ -65,6 +65,8 @@ let intents = new builder.IntentDialog({ recognizers: [recognizer] })
 
 bot.dialog('/', intents)
 
+bot.use(builder.Middleware.sendTyping())
+
 bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
         message.membersAdded.forEach(function (identity) {

@@ -9,6 +9,7 @@ module.exports = {
         __dirname: true,
     },
     entry: glob.sync("*/index.ts").reduce((acc, value) => {
+        console.log(value)
         acc[value.replace(/.ts$/, ".js")] = "./" + value; return acc;
     }, {}),
     output: {

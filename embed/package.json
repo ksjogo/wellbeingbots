@@ -1,0 +1,36 @@
+{
+  "name": "wellbeingbots-embed",
+  "version": "1.0.0",
+  "description": "wellbeingbots-embed",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@types/autobind-decorator": "^2.1.0",
+    "@types/node": "^9.4.7",
+    "@types/react": "^15.0.39",
+    "@types/react-dom": "^15.5.1",
+    "@types/react-spinkit": "^3.0.3",
+    "autobind-decorator": "^2.1.0",
+    "awesome-typescript-loader": "^3.2.1",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "botframework-webchat": "^0.12.0",
+    "clippy": "github:ksjogo/clippy.js#master",
+    "css-loader": "^0.28.11",
+    "json-loader": "^0.5.7",
+    "mobx": "^3.2.1",
+    "mobx-react": "^4.2.2",
+    "mobx-react-devtools": "^4.2.15",
+    "node-sass": "^4.7.2",
+    "querystring": "^0.2.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-hot-loader": "^4.0.0",
+    "react-spinkit": "^3.0.0",
+    "style-loader": "^0.20.3",
+    "typescript": "^2.4.2",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.6.1"
+  }
+}

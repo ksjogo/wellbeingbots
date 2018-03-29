@@ -10,7 +10,7 @@ const logo = require('../style/logo.png')
 @observer
 export class Clippy extends React.Component<{ appState: AppState }, {}> {
 
-    constructor (...args) {
+    constructor(...args) {
         super(...args)
         autorun(() => {
             if (this.props.appState.clippyMsStyle && !this.props.appState.clippyAgent) {
@@ -31,7 +31,7 @@ export class Clippy extends React.Component<{ appState: AppState }, {}> {
     render () {
         return <div className='clippybox' onClick={this.toggle}>
             {!this.props.appState.clippyMsStyle ?
-                <img src={logo} />
+                <img className='chatLogoCR' src={logo} />
                 :
                 <div
                     ref={

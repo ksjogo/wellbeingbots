@@ -26,6 +26,15 @@
     height: 200px;
 }
 
+.chatLogoCR {
+    height: 128px;
+    width: 128px;
+    margin: auto;
+    top: 64px;
+    position: absolute;
+    left: 100px;
+}
+
 #chatbottoggle {
     background: transparent;
     border: transparent;

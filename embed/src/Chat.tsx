@@ -16,9 +16,9 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
             this.props.appState.chatLine.activity$.filter(activity => {
                 if (activity.from.id !== 'user') {
                     this.props.appState.clippyMsStyle && this.props.appState.clippyAgent.animate()
-                    switch (activity.type) {
-                        case 'message':
-                            return !!activity.entities
+                    switch ((activity as any).name) {
+                        case 'clippy':
+                            return true
                         default:
                             return false
                     }
@@ -31,14 +31,18 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
 
     @autobind
     async onActivity (activity: Message) {
-        activity.entities.forEach(async (thing) => {
-            console.log(thing.action)
-        })
+        switch ((activity as any).name) {
+            case 'clippy':
+                this.props.appState.clippyMsStyle = !this.props.appState.clippyMsStyle
+                setTimeout(() => { this.props.appState.clippyAgent && this.props.appState.clippyAgent.animate() }, 1000)
+                break
+            default:
+                break
+        }
     }
 
     @autobind
     sendActivity (name: string, value: any) {
-        debugger
         this.props.appState.chatLine
             .postActivity({ type: 'event', value: value, from: { id: 'user' }, name: name })
             .subscribe(id => console.log('success'))

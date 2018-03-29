@@ -8,6 +8,8 @@ export default class AppState {
 
   @observable clippyAgent: any = null
 
+  @observable hidden = true
+
   async remote (command: string, args: any) {
     if (command !== 'chattoken')
       return Promise.resolve({})

@@ -1,0 +1,54 @@
+.chatbox {
+    width: 320px;
+    height: 600px;
+    position: fixed !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin-bottom: -400px;    
+    transition: margin-bottom 2s cubic-bezier(0.37, 0.21, 0, 1.04)
+}
+
+.chatboxShown {
+    margin-bottom: 0px;
+}
+
+.wc-chatview-panel {
+    top: 200px !important;
+    border: 1px solid !important;
+    background: white !important;
+}
+
+.chatboxWebchat {
+    height: 400px;
+}
+
+.chatboxClippy {
+    height: 200px;
+}
+
+#chatbottoggle {
+    background: transparent;
+    border: transparent;
+    line-height: 18px;
+    padding: 13.5px 20px;
+}
+
+.clippy {
+    margin:auto;
+    margin-top: 90px;
+    left:0px;
+    top:0px;
+}
+
+.logobutton {
+    height: 30px;
+}
+
+.logobutton img {
+    height: 100%;
+}
+
+.nreach-btn-container {
+    border: 0 !important;
+    padding: 0 !important;
+}

@@ -14,7 +14,7 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
             let data = await this.props.appState.remote('chattoken', {})
             this.props.appState.chatLine = new DirectLine({ token: data.token })
             this.props.appState.chatLine.activity$.filter(activity => {
-                if (activity.from.id === 'nreachbot') {
+                if (activity.from.id !== 'user') {
                     this.props.appState.clippyAgent.animate()
                     switch (activity.type) {
                         case 'message':
@@ -44,7 +44,7 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
     }
 
     render () {
-        return <div className='chatbox'>
+        return <div className={this.props.appState.hidden ? 'chatbox' : 'chatbox chatboxShown'}>
             <div className='clippyContainer'>
                 <Clippy appState={this.props.appState} />
             </div>
@@ -53,6 +53,7 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
                     adaptiveCardsHostConfig={{}}
                     bot={{ id: 'bot' }}
                     user={{ id: 'user' }}
+                    chatTitle='Common Room'
                     botConnection={this.props.appState.chatLine}
                 /> : <Spinner />}
             </div>

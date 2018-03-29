@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react'
 import * as Spinner from 'react-spinkit'
 import * as ClippyJS from 'clippy'
 import AppState from './AppState'
+import autobind from 'autobind-decorator'
 
 @observer
 export class Clippy extends React.Component<{ appState: AppState }, {}> {
@@ -16,8 +17,14 @@ export class Clippy extends React.Component<{ appState: AppState }, {}> {
             }, () => { return })
         }
     }
+
+    @autobind
+    toggle () {
+        this.props.appState.hidden = !this.props.appState.hidden
+    }
+
     render () {
-        return <div className='clippybox'>
+        return <div className='clippybox' onClick={this.toggle}>
             <div
                 ref={
                     (wrapper) => {

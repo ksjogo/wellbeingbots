@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import AppState from './AppState'
 import App from './App'
+import '../style.css'
 
 const el = document.createElement('div')
 el.id = 'wellbeingbots'

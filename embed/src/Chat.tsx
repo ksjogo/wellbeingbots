@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { observer, inject } from 'mobx-react'
 import { Chat as WebChat, DirectLine, EventActivity, Message } from 'botframework-webchat'
+import * as CognitiveServices from 'botframework-webchat/CognitiveServices.js'
 import 'botframework-webchat/botchat.css'
 import * as Spinner from 'react-spinkit'
 import { Clippy } from './Clippy'
@@ -48,6 +49,29 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
             .subscribe(id => console.log('success'))
     }
 
+    getToken () {
+        return fetch(
+            'https://wellbeingbots.azurewebsites.net/api/speechtoken',
+            {
+                headers: {
+                },
+                method: 'POST',
+            },
+        ).then(res => res.text())
+    }
+
+    speechOptions = {
+        speechRecognizer: new CognitiveServices.SpeechRecognizer({
+            fetchCallback: (authFetchEventId) => this.getToken(),
+            fetchOnExpiryCallback: (authFetchEventId) => this.getToken(),
+        }),
+        speechSynthesizer: new CognitiveServices.SpeechSynthesizer({
+            gender: CognitiveServices.SynthesisGender.Female,
+            fetchCallback: (authFetchEventId) => this.getToken(),
+            fetchOnExpiryCallback: (authFetchEventId) => this.getToken(),
+        }),
+    }
+
     render () {
         return <div className={this.props.appState.hidden ? 'chatbox' : 'chatbox chatboxShown'}>
             <div className='clippyContainer'>
@@ -56,6 +80,7 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
             <div className='webchat'>
                 {this.props.appState.chatLine ? <WebChat
                     adaptiveCardsHostConfig={{}}
+                    speechOptions={this.speechOptions}
                     bot={{ id: 'bot' }}
                     user={{ id: 'user' }}
                     chatTitle='Common Room'

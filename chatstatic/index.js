@@ -69,7 +69,7 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ 498:
+/***/ 504:
 /***/ (function(module, exports) {
 
 module.exports = "<html>\n\n<head>\n    <title>Wellbeingbots</title>\n</head>\n\n<body>\n    <script src=\"${scriptFile}\"></script>\n</body>\n\n</html>"
@@ -79,7 +79,7 @@ module.exports = "<html>\n\n<head>\n    <title>Wellbeingbots</title>\n</head>\n\
 /***/ 962:
 /***/ (function(module, exports, __webpack_require__) {
 
-var text = __webpack_require__(498).
+var text = __webpack_require__(504).
     replace('${scriptFile}', !process.env.WEBSITE_INSTANCE_ID ?
     'http://localhost:3000/static/bundle.js' :
     'https://wellbeingbots.azurewebsites.net/api/chatjs');

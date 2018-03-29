@@ -34,6 +34,13 @@ const qna = new QnAMakerRecognizer({
 
 let recognizer = new builder.LuisRecognizer(LuisModelUrl)
 let intents = new builder.IntentDialog({ recognizers: [recognizer] })
+    .matches('Clippy', (session) => {
+        session.send({
+            text: 'As you wish, Bill.',
+            value: 'clippy',
+            name: 'clippy',
+        } as builder.IMessage)
+    })
     .matches('Greeting', (session) => {
         session.send('You reached Greeting intent, you said \'%s\'.', session.message.text)
     })
@@ -57,6 +64,22 @@ let intents = new builder.IntentDialog({ recognizers: [recognizer] })
     })
 
 bot.dialog('/', intents)
+
+// Add first run dialog
+bot.dialog('firstRun', function (session) {
+    session.userData.firstRun = true
+    session.send('Hello...').endDialog()
+}).triggerAction({
+    onFindAction: function (context, callback) {
+        // Only trigger if we've never seen user before
+        if (!context.userData.firstRun) {
+            // Return a score of 1.1 to ensure the first run dialog wins
+            callback(null, 1.1)
+        } else {
+            callback(null, 0.0)
+        }
+    },
+})
 
 const listener = connector.listen()
 module.exports = function (context) {

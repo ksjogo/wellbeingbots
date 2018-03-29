@@ -15,7 +15,7 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
             this.props.appState.chatLine = new DirectLine({ token: data.token })
             this.props.appState.chatLine.activity$.filter(activity => {
                 if (activity.from.id !== 'user') {
-                    this.props.appState.clippyAgent.animate()
+                    this.props.appState.clippyMsStyle && this.props.appState.clippyAgent.animate()
                     switch (activity.type) {
                         case 'message':
                             return !!activity.entities
@@ -38,6 +38,7 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
 
     @autobind
     sendActivity (name: string, value: any) {
+        debugger
         this.props.appState.chatLine
             .postActivity({ type: 'event', value: value, from: { id: 'user' }, name: name })
             .subscribe(id => console.log('success'))

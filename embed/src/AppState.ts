@@ -7,6 +7,7 @@ export default class AppState {
   @observable chatLine: DirectLine = null
 
   @observable clippyAgent: any = null
+  @observable clippyMsStyle = false
 
   @observable hidden = true
 

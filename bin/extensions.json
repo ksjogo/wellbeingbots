@@ -1,5 +1,0 @@
-{
-  "extensions":[
-    { "name": "CosmosDBConfiguration", "typeName":"Microsoft.Azure.WebJobs.Extensions.CosmosDB.CosmosDBConfiguration, Microsoft.Azure.WebJobs.Extensions.CosmosDB, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null"}
-  ]
-}

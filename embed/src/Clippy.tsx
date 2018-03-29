@@ -4,6 +4,7 @@ import * as Spinner from 'react-spinkit'
 import * as ClippyJS from 'clippy'
 import AppState from './AppState'
 import autobind from 'autobind-decorator'
+const logo = require('../style/logo.png')
 
 @observer
 export class Clippy extends React.Component<{ appState: AppState }, {}> {
@@ -25,6 +26,7 @@ export class Clippy extends React.Component<{ appState: AppState }, {}> {
 
     render () {
         return <div className='clippybox' onClick={this.toggle}>
+            <img src={logo} />
             <div
                 ref={
                     (wrapper) => {

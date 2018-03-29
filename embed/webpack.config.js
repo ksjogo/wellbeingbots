@@ -44,7 +44,10 @@ module.exports = {
       }, {
         test: /\.css$/,
         loader: 'style-loader!css-loader'
-      },
+      }, {
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        loaders: ["base64-image-loader"]
+      }
     ]
   }
 };

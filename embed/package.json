@@ -15,6 +15,7 @@
     "awesome-typescript-loader": "^3.2.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "base64-image-loader": "^1.2.1",
     "botframework-webchat": "^0.12.0",
     "clippy": "github:ksjogo/clippy.js#master",
     "css-loader": "^0.28.11",

@@ -13,7 +13,7 @@ class App extends React.Component<{ appState: AppState }, {}> {
         return (
             <div>
                 <Chat appState={this.props.appState} />
-                {process.env.NODE_ENV !== 'production' ?
+                {location.hostname === 'localhost' ?
                     <DevTools /> : <div />}
             </div>
         )

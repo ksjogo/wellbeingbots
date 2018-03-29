@@ -10,6 +10,7 @@ export default class AppState {
   @observable clippyMsStyle = false
 
   @observable hidden = true
+  @observable chatEnabled = false
 
   async remote (command: string, args: any) {
     if (command !== 'chattoken')

@@ -13,7 +13,8 @@ class App extends React.Component<{ appState: AppState }, {}> {
         return (
             <div>
                 <Chat appState={this.props.appState} />
-                <DevTools />
+                {process.env.NODE_ENV !== 'production' ?
+                    <DevTools /> : <div />}
             </div>
         )
     }

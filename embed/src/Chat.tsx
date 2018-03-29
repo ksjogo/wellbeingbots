@@ -7,10 +7,18 @@ import * as Spinner from 'react-spinkit'
 import { Clippy } from './Clippy'
 import AppState from './AppState'
 import autobind from 'autobind-decorator'
+import { autorun } from 'mobx';
 
 @observer
 export class Chat extends React.Component<{ appState: AppState }, {}> {
-    async componentDidMount () {
+    constructor(...args) {
+        super(...args)
+        autorun(() => {
+            this.props.appState.chatEnabled && this.loadChat()
+        })
+    }
+
+    async loadChat () {
         try {
             let data = await this.props.appState.remote('chattoken', {})
             this.props.appState.chatLine = new DirectLine({ token: data.token })
@@ -85,7 +93,10 @@ export class Chat extends React.Component<{ appState: AppState }, {}> {
                     user={{ id: 'user' }}
                     chatTitle='Common Room'
                     botConnection={this.props.appState.chatLine}
-                /> : <Spinner />}
+                /> :
+                    <div className='wc-chatview-panel'>
+                        <Spinner className='spinner' />
+                    </div>}
             </div>
         </div>
     }

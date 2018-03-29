@@ -25,6 +25,7 @@ export class Clippy extends React.Component<{ appState: AppState }, {}> {
 
     @autobind
     toggle () {
+        this.props.appState.chatEnabled = true
         this.props.appState.hidden = !this.props.appState.hidden
     }
 

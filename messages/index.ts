@@ -36,25 +36,28 @@ let recognizer = new builder.LuisRecognizer(LuisModelUrl)
 let intents = new builder.IntentDialog({ recognizers: [recognizer] })
     .matches('Clippy', (session) => {
         session.send({
-            text: 'As you wish, Bill.',
+            text: 'As you wish.',
             value: 'clippy',
             name: 'clippy',
         } as builder.IMessage)
     })
     .matches('Greeting', (session) => {
-        session.send('You reached Greeting intent, you said \'%s\'.', session.message.text)
+        session.send('Hello. How are you today?', session.message.text)
     })
     .matches('Help', (session) => {
         session.sendTyping()
-        session.send('You opened the welfare faq. Let me look for an answer.', session.message.text)
+        session.send('Let me look for an answer.', session.message.text)
         session.sendTyping()
         qna.recognize(session, (err, faq) => {
             if (err) throw err
             session.send(faq.answers[0].answer)
         })
     })
+    .matches('Triage', (session) => {
+        session.send("I'm sorry to hear that. I recommend [name]. Here is their contact info:", session.message.text)
+    })
     .matches('Cancel', (session) => {
-        session.send('You reached Cancel intent, you said \'%s\'.', session.message.text)
+        session.send('Would you like to cancel your session? You said \'%s\'.', session.message.text)
     })
     /*
     .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/

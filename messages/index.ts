@@ -13,12 +13,6 @@ let connector = new botbuilderAzure.BotServiceConnector({
     openIdMetadata: process.env['BotOpenIdMetadata'],
 } as any)
 
-/*----------------------------------------------------------------------------------------
-* Bot Storage: This is a great spot to register the private state storage for your bot.
-* We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
-* For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
-* ---------------------------------------------------------------------------------------- */
-
 let tableName = 'botdata'
 let azureTableClient = new botbuilderAzure.AzureTableClient(tableName, process.env['AzureWebJobsStorage'])
 let tableStorage = new botbuilderAzure.AzureBotStorage({ gzipData: false }, azureTableClient)
@@ -82,7 +76,7 @@ function createHeroCard (session, name, role = 'advisor') {
         .subtitle("Advisor at St. Catherine's")
         //        .text('Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.')
         .images([
-            builder.CardImage.create(session, 'https://i.imgflip.com/1freth.jpg'),
+            builder.CardImage.create(session, 'https://i.imgur.com/Z8dC8qH.jpg'),
         ])
 }
 

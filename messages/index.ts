@@ -46,25 +46,26 @@ async function lookup (type: string, college = 'catz') {
 bot.dialog('Triage', [
     (session, args, next) => {
         let entities = args.intent.entities
-        session.dialogData.entities = args.intent.entities
-        session.send(`Okay, I identified the main problem to likely be ${entities[0].type}. Let me look up the expert for you.`)
-        session.sendTyping()
-        lookup(entities).then((expert: string) => {
-            session.send(`That seems to be ${expert}`)
-            builder.Prompts.choice(session, 'How can I help best?', ['Get email address', 'Get Phone number'])
-        })
+        session.conversationData.entities = args.intent.entities
+        session.beginDialog('Find Expert')
     },
-    (session, results) => {
-        session.send(JSON.stringify(results))
-        session.endDialog('ok')
-    },
-],
-).triggerAction({
+]).triggerAction({
     matches: 'Triage',
-    onInterrupted: session => {
-        session.send('Please provide a destination')
-    },
 })
+
+bot.dialog('Find Expert', [(session, args, next) => {
+    let entities = session.conversationData.entities
+    session.send(`Okay, I identified the main problem to likely be ${entities.length > 0 && entities[0].type}. Let me look up the expert for you.`)
+    session.sendTyping()
+    lookup(entities).then((expert: string) => {
+        session.send(`That seems to be ${expert}`)
+        builder.Prompts.choice(session, 'How can I help best?', ['Get email address', 'Get Phone number'])
+    })
+},
+(session, results) => {
+    session.send(JSON.stringify(results))
+    session.endDialog('ok')
+}])
 
 bot.dialog('Clippy', [
     (session, args, next) => {
@@ -114,6 +115,14 @@ bot.dialog('Cancel', [
     }],
 ).triggerAction({
     matches: 'Cancel',
+})
+
+bot.dialog('/', (session, args, next) => {
+    // got an image, what to do?
+    session.send('what')
+    session.send(JSON.stringify(args))
+    session.conversationData.entities = [{ type: 'tf' }]
+    session.beginDialog('Find Expert')
 })
 
 bot.use(builder.Middleware.sendTyping())

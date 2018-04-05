@@ -3,6 +3,10 @@ import * as botbuilderAzure from 'botbuilder-azure'
 import * as path from 'path'
 import { QnAMakerRecognizer } from 'botbuilder-cognitiveservices'
 
+import * as Gremlin from 'gremlin'
+
+import { promisify } from 'util'
+
 let connector = new botbuilderAzure.BotServiceConnector({
     appId: process.env['MicrosoftAppId'],
     appPassword: process.env['MicrosoftAppPassword'],
@@ -18,6 +22,8 @@ let connector = new botbuilderAzure.BotServiceConnector({
 let tableName = 'botdata'
 let azureTableClient = new botbuilderAzure.AzureTableClient(tableName, process.env['AzureWebJobsStorage'])
 let tableStorage = new botbuilderAzure.AzureBotStorage({ gzipData: false }, azureTableClient)
+
+// g.v('d50d3daf-59bc-4dc9-8c0b-7c36671d0b4e').out('attached').inE('attached').outV().has('role')
 
 let bot = new builder.UniversalBot(connector)
 bot.localePath(path.join(__dirname, './locale'))
@@ -38,9 +44,26 @@ bot.recognizer(recognizer)
 
 const timeout = ms => new Promise(res => setTimeout(res, ms))
 
+const client = Gremlin.createClient(
+    443,
+    process.env['GRAPH_ENDPOINT'],
+    {
+        'session': false,
+        'ssl': true,
+        'user': `/dbs/${process.env['GRAPH_DB']}/colls/${process.env['GRAPH_TABLE']}`,
+        'password': process.env['GRAPH_KEY'],
+    } as any,
+)
+
+const execute = promisify(client.execute).bind(client)
+const userid = `'d50d3daf-59bc-4dc9-8c0b-7c36671d0b4e'`
+
+function query (thing) {
+    return `g.v(${userid}).out('attached').inE('attached').outV().has('role')`
+}
 async function lookup (type: string, college = 'catz') {
-    let timer = await timeout(5000)
-    return Promise.resolve('Johnny')
+    let result = await execute(query(type))
+    return Promise.resolve(result[0])
 }
 
 bot.dialog('Triage', [
@@ -53,22 +76,42 @@ bot.dialog('Triage', [
     matches: 'Triage',
 })
 
+function createHeroCard (session, name, role = 'advisor') {
+    return new builder.HeroCard(session)
+        .title(name)
+        .subtitle("Advisor at St. Catherine's")
+        //        .text('Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.')
+        .images([
+            builder.CardImage.create(session, 'https://i.imgflip.com/1freth.jpg'),
+        ])
+}
+
 bot.dialog('Find Expert', [(session, args, next) => {
-    let entities = session.conversationData.entities
-    session.send(`Okay, I identified the main problem to likely be ${entities.length > 0 && entities[0].type}. Let me look up the expert for you.`)
+    let entities: any[] = session.conversationData.entities
+    let identified = entities.length > 0 ? entities[0].type : 'unknown'
+    session.send(`Okay, that seem to be syptoms typical for a ${identified.toLowerCase()}. Let me look up the closest expert for you.`)
     session.sendTyping()
-    lookup(entities).then((expert: string) => {
-        session.send(`That seems to be ${expert}`)
-        builder.Prompts.choice(session, 'How can I help best?', ['Get email address', 'Get Phone number'])
+    lookup(identified).then((expert) => {
+        session.conversationData.expert = expert
+        let card = createHeroCard(session, expert.label)
+        let msg = new builder.Message(session).addAttachment(card)
+        session.send(msg)
+        builder.Prompts.choice(session, 'How can he help best?', ['Show email address', 'Send direct message'])
     })
 },
 (session, results) => {
-    session.send(JSON.stringify(results))
-    session.endDialog('ok')
+    if (results.response.index === 0)
+        session.send(`That would be ${session.conversationData.expert.properties['e-mail'][0].value}`)
+    else
+        session.send(`He seems to be offline at the moment.`)
+    session.endDialog('Hope I helped, can you write another query.')
 }])
+
+// I don't have any energy, I do nothing all day long and my mood is just awful
 
 bot.dialog('Clippy', [
     (session, args, next) => {
+        lookup('tst')
         session.send({
             text: 'As you wish, Bill.',
             value: 'clippy',

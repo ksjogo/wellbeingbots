@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "@types/async": "^2.0.47",
+    "@types/gremlin": "git+https://github.com/akane30/npm-gremlin.git",
     "@types/lodash": "^4.14.93",
     "@types/node": "^9.3.0",
     "@types/node-fetch": "^1.6.7",
@@ -14,6 +15,7 @@
     "botbuilder-azure": "3.0.4",
     "botbuilder-cognitiveservices": "^1.1.0",
     "glob": "^7.1.2",
+    "gremlin": "^2.7.0",
     "lodash": "^4.17.4",
     "lodash-decorators": "^4.5.0",
     "node-fetch": "^1.7.3",

@@ -33,18 +33,61 @@ const qna = new QnAMakerRecognizer({
 })
 
 let recognizer = new builder.LuisRecognizer(LuisModelUrl)
-let intents = new builder.IntentDialog({ recognizers: [recognizer] })
-    .matches('Clippy', (session) => {
+
+bot.recognizer(recognizer)
+
+const timeout = ms => new Promise(res => setTimeout(res, ms))
+
+async function lookup (type: string, college = 'catz') {
+    let timer = await timeout(5000)
+    return Promise.resolve('Johnny')
+}
+
+bot.dialog('Triage', [
+    (session, args, next) => {
+        let entities = args.intent.entities
+        session.dialogData.entities = args.intent.entities
+        session.send(`Okay, I identified the main problem to likely be ${entities[0].type}. Let me look up the expert for you.`)
+        session.sendTyping()
+        lookup(entities).then((expert: string) => {
+            session.send(`That seems to be ${expert}`)
+            builder.Prompts.choice(session, 'How can I help best?', ['Get email address', 'Get Phone number'])
+        })
+    },
+    (session, results) => {
+        session.send(JSON.stringify(results))
+        session.endDialog('ok')
+    },
+],
+).triggerAction({
+    matches: 'Triage',
+    onInterrupted: session => {
+        session.send('Please provide a destination')
+    },
+})
+
+bot.dialog('Clippy', [
+    (session, args, next) => {
         session.send({
             text: 'As you wish, Bill.',
             value: 'clippy',
             name: 'clippy',
         } as builder.IMessage)
-    })
-    .matches('Greeting', (session) => {
+    }],
+).triggerAction({
+    matches: 'Clippy',
+})
+
+bot.dialog('Greeting', [
+    (session, args, next) => {
         session.send('You reached Greeting intent, you said \'%s\'.', session.message.text)
-    })
-    .matches('Help', (session) => {
+    }],
+).triggerAction({
+    matches: 'Greeting',
+})
+
+bot.dialog('Help', [
+    (session, args, next) => {
         session.sendTyping()
         session.send('You opened the welfare faq. Let me look for an answer.', session.message.text)
         session.sendTyping()
@@ -52,18 +95,26 @@ let intents = new builder.IntentDialog({ recognizers: [recognizer] })
             if (err) throw err
             session.send(faq.answers[0].answer)
         })
-    })
-    .matches('Cancel', (session) => {
-        session.send('You reached Cancel intent, you said \'%s\'.', session.message.text)
-    })
-    /*
-    .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
-    */
-    .onDefault((session) => {
-        session.send('Sorry, I did not understand \'%s\'.', session.message.text)
-    })
+    }],
+).triggerAction({
+    matches: 'Clippy',
+})
 
-bot.dialog('/', intents)
+bot.dialog('None', [
+    (session, args, next) => {
+        session.send('Sorry, I did not understand \'%s\'.', session.message.text)
+    }],
+).triggerAction({
+    matches: 'None',
+})
+
+bot.dialog('Cancel', [
+    (session, args, next) => {
+        session.send('You canceled')
+    }],
+).triggerAction({
+    matches: 'Cancel',
+})
 
 bot.use(builder.Middleware.sendTyping())
 

@@ -85,7 +85,8 @@ var text = __webpack_require__(523).
     'https://wellbeingbots.azurewebsites.net/api/chatjs');
 module.exports = function (context, req) {
     context.res.setHeader('content-type', 'text/html; charset=utf-8');
-    context.res.raw(text);
+    context.res.isRaw = true;
+    context.res.body = text;
 };
 
 

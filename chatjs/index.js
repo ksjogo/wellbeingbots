@@ -82,7 +82,8 @@ module.exports = "/******/ (function(modules) { // webpackBootstrap\n/******/ \t
 var js = __webpack_require__(524);
 module.exports = function (context, req) {
     context.res.setHeader('content-type', 'application/javascript; charset=utf-8');
-    context.res.raw(js);
+    context.res.isRaw = true;
+    context.res.body = js;
 };
 
 

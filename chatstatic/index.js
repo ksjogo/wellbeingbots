@@ -87,6 +87,7 @@ module.exports = function (context, req) {
     context.res.setHeader('content-type', 'text/html; charset=utf-8');
     context.res.isRaw = true;
     context.res.body = text;
+    context.done();
 };
 
 

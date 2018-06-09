@@ -1,5 +1,6 @@
 build:
 	cd embed && NODE_ENV=production npx webpack
+	cp embed/dist/bundle.js www/js/index.js
 	npx webpack	
 
 lint:
